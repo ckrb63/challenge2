@@ -4,8 +4,13 @@ import styles from "./Input.module.css";
 const Input = (props) => {
   const [inputNumber, setInputNumber] = useState(1);
   const inputChangeHandler = (event) => {
+    if(event.target.value<0){
+      setInputNumber(0);
+      return;
+    }
     setInputNumber(event.target.value);
-    props.changeValue(event.target.value);
+    const sendValue = parseInt(event.target.value);
+    props.changeValue(sendValue);
   }
   return (
     <div className={styles.input}>

@@ -2,19 +2,33 @@ import styles from "./MealItemForm.module.css";
 import Input from "../UI/Input";
 import { useState } from "react";
 
-const MealItemForm = () => {
+const MealItemForm = (props) => {
   const [inputValue,setInputValue] = useState(1);
   const getInputValue = (value) => {
     setInputValue(value);
   }
-  console.log(inputValue);
+  
+  const addCartButtonHandler = () => {
+    props.onClick(inputValue);
+    let existValue = 0;
+    let totalValue = 0;
+    if(localStorage.getItem(props.id))
+      existValue = parseInt(localStorage.getItem(props.id));
+    localStorage.setItem(props.id,inputValue+existValue);
+    if(localStorage.getItem('total'))
+      totalValue = parseInt(localStorage.getItem('total'));
+    localStorage.setItem('total',totalValue+inputValue);
+  }
   return (
-    <form className={styles.form}>
+    <div className={styles.form}>
       <div>
         <Input changeValue={getInputValue}/>
       </div>
-      <button>+Add</button>
-    </form>
+      <button 
+      onClick={addCartButtonHandler}
+      >
+        +Add</button>
+    </div>
   );
 };
 export default MealItemForm;

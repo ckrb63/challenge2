@@ -2,6 +2,10 @@ import react from "react";
 import styles from "./MealItem.module.css";
 import MealItemForm from "./MealItemForm";
 const MealItem = (props) => {
+  const addCart = (value) => {
+    props.onClick(value);
+  }
+  
   return (
     <div className={styles.meal}>
       <div>
@@ -9,7 +13,7 @@ const MealItem = (props) => {
         <p className={styles.description}>{props.description}</p>
         <p className={styles.price}>${props.price}</p>
       </div>
-      <MealItemForm/>
+      <MealItemForm onClick={addCart} id={props.id}/>
     </div>
   );
 };

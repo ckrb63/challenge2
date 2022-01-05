@@ -1,8 +1,9 @@
+import react from "react";
+import { useState } from "react";
 import Description from "./components/Layout/Description";
 import Header from "./components/Layout/Header";
 import AvailableMeals from "./components/Meals/AvailableMeals";
-import MealItem from "./components/Meals/MealItem";
-import Card from "./components/UI/Card";
+import Count from "./store/count";
 const DUMMY_MEALS = [
   {
     id: 'm1',
@@ -30,12 +31,27 @@ const DUMMY_MEALS = [
   },
 ];
 function App() {
+  const [totalMealCount, setTotalCount] = useState(
+    parseInt(localStorage.getItem('total'))
+  );
+
+  const addMealHandler = (value) => {
+    value = parseInt(value);
+    setTotalCount(totalMealCount+value);
+    console.log(typeof(totalMealCount));
+    console.log(typeof(value));
+  };
   return (
-    <div>
-      <Header/>
+    <Count.Provider value={{
+      count : totalMealCount,
+      mealarray : DUMMY_MEALS
+    }}>
+      <react.Fragment>
+      <Header />
       <Description/>
-      <AvailableMeals mealList={DUMMY_MEALS}/>
-    </div>
+      <AvailableMeals mealList={DUMMY_MEALS} addMeal={addMealHandler}/>
+      </react.Fragment>
+    </Count.Provider>
   );
 }
 
