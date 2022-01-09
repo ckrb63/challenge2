@@ -14,8 +14,8 @@ const Input = (props) => {
   }
   return (
     <div className={styles.input}>
-      <label>Amount</label>
-      <input value={inputNumber} type={'number'} onChange={inputChangeHandler}></input>
+      <label htmlFor={props.input.id}>{props.label}</label>
+      <input {...props.input} value={inputNumber} onChange={inputChangeHandler}></input>
     </div>
   );
 };
