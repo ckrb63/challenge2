@@ -29,7 +29,7 @@ const Cart = (props) => {
         <label>$33.00</label>
       </div>
       <div className={styles.actions}>
-        <button >Close</button>
+        <button onClick={props.onClose}>Close</button>
         <button  className={styles.button}>
           Order
         </button>
