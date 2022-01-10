@@ -1,10 +1,14 @@
-import react from "react";
-import { useState } from "react";
+import react, { useContext } from "react";
 import CartIcon from "../Cart/CartIcon";
-import Modal from "../Cart/Modal";
 import styles from "./HeaderCartButton.module.css";
+import CartContext from "../../store/cart-context";
 
 const HeaderCartButton = (props) => {
+  const cartCtx = useContext(CartContext);
+
+  const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
+    return curNumber + item.amount;
+  }, 0);
 
   return (
     <react.Fragment>
@@ -14,7 +18,7 @@ const HeaderCartButton = (props) => {
       >
         <CartIcon />
         <p>{props.children}</p>
-        <div className={styles.badge}>{props.count}</div>
+        <div className={styles.badge}>{numberOfCartItems}</div>
       </button>
     </react.Fragment>
   );

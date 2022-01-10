@@ -1,5 +1,4 @@
 import react, { useContext, useEffect, useState } from "react";
-import Count from "../../store/count";
 import styles from "./Header.module.css";
 import HeaderCartButton from "./HeaderCartButton";
 import mealsImage from "./meals.jpg"

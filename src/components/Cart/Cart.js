@@ -1,6 +1,5 @@
 import react, { useContext } from "react";
 import { useState } from "react/cjs/react.development";
-import Count from "../../store/count";
 import styles from "./Cart.module.css";
 import CartItem from "./CartItem";
 import Modal from "./Modal";
@@ -22,7 +21,7 @@ const Cart = (props) => {
   );
 
   return (
-    <Modal>
+    <Modal onClick={props.onClose}>
       {cartItems}
       <div className={styles.total}>
         <label>Total Amount</label>
@@ -30,9 +29,7 @@ const Cart = (props) => {
       </div>
       <div className={styles.actions}>
         <button onClick={props.onClose}>Close</button>
-        <button  className={styles.button}>
-          Order
-        </button>
+        <button className={styles.button}>Order</button>
       </div>
     </Modal>
   );

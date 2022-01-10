@@ -1,32 +1,27 @@
-import {Fragment} from "react";
-import Card from "../UI/Card";
+import { Fragment } from "react";
 import styles from "./Modal.module.css";
-import Cart from "./Cart"
 import reactDom from "react-dom";
 
-const Backdrop = props => {
-  return <div className={styles.backdrop} />
+const Backdrop = (props) => {
+  return <div className={styles.backdrop} onClick={props.onClick} />;
 };
 
-const ModalOverlay = props => {
-  return <div className={styles.modal}>
-    <div className={styles.content}>{props.children}</div>
-  </div>
+const ModalOverlay = (props) => {
+  return (
+    <div className={styles.modal}>
+      <div className={styles.content}>{props.children}</div>
+    </div>
+  );
 };
 
 const Modal = (props) => {
-
+  const portalPlace = document.getElementById("backdrop");
   return (
     <Fragment>
+      {reactDom.createPortal(<Backdrop onClick={props.onClick} />, portalPlace)}
       {reactDom.createPortal(
-        <Backdrop />,
-        document.getElementById("backdrop")
-      )}
-      {reactDom.createPortal(
-        <ModalOverlay >
-          {props.children}
-        </ModalOverlay>,
-        document.getElementById("overlays")
+        <ModalOverlay>{props.children}</ModalOverlay>,
+        portalPlace
       )}
     </Fragment>
   );
