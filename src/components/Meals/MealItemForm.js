@@ -1,34 +1,34 @@
 import styles from "./MealItemForm.module.css";
 import Input from "../UI/Input";
-import { useState } from "react";
+import { useRef } from "react";
 
 const MealItemForm = (props) => {
-  const [inputValue,setInputValue] = useState(1);
-  const getInputValue = (value) => {
-    setInputValue(value);
-  }
-  
-  const addCartButtonHandler = () => {
-    props.onClick(inputValue);
-    let existValue = 0;
-    let totalValue = 0;
-    if(localStorage.getItem(props.id))
-      existValue = parseInt(localStorage.getItem(props.id));
-    localStorage.setItem(props.id,inputValue+existValue);
-    if(localStorage.getItem('total'))
-      totalValue = parseInt(localStorage.getItem('total'));
-    localStorage.setItem('total',totalValue+inputValue);
-  }
+  const countRef = useRef(0);
+
+  const addCartButtonHandler = (event) => {
+    event.preventDefault();
+    const count = countRef.current.value;
+    props.onClick(count);
+  };
+
   return (
-    <div className={styles.form}>
+    <form className={styles.form}>
       <div>
-        <Input changeValue={getInputValue}/>
+        <Input label='Amount' input={{
+          ref: countRef,
+          id: 'amount_' + props.id,
+          type: 'number',
+          min: '1',
+          max: '5',
+          step: '1',
+          defaultValue: '1'
+        }}/>
       </div>
       <button 
       onClick={addCartButtonHandler}
       >
         +Add</button>
-    </div>
+    </form>
   );
 };
 export default MealItemForm;
