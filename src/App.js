@@ -1,9 +1,9 @@
-import react from "react";
 import { useState } from "react";
 import Description from "./components/Layout/Description";
 import Header from "./components/Layout/Header";
 import AvailableMeals from "./components/Meals/AvailableMeals";
 import Cart from "./components/Cart/Cart";
+import CartProvider from "./store/CartProvider";
 
 
 function App() {
@@ -19,12 +19,12 @@ function App() {
 
 
   return (
-      <react.Fragment>
+      <CartProvider>
         {cartIsShown && <Cart onClose={hideCartHandler}/>}
         <Header onShowCart={showCartHandler} />
         <Description/>
         <AvailableMeals />
-      </react.Fragment>
+      </CartProvider>
   );
 }
 
