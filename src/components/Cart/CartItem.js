@@ -6,7 +6,7 @@ const CartItem = (props) => {
     props.onAdd();
   };
   const onRemoveHandler = () => {
-    props.onRemove(props.id);
+    props.onRemove();
   }
   return (
     <li className={classes['cart-item']}>
