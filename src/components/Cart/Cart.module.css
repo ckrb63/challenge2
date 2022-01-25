@@ -46,3 +46,10 @@
   background-color: #8a2b06;
   color: white;
 }
+
+.actions .button:disabled{
+  background-color: #777;
+  color: white;
+  cursor: not-allowed;
+  border: none;
+}

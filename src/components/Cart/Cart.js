@@ -8,11 +8,16 @@ import Input from "../UI/Input";
 import UserConfirm from "./UserConfirm";
 
 const Cart = (props) => {
+  const [formIsValid, setFormIsValid] = useState(false);
+  const [inputValues, setInputValues] = useState({});
   const submitRef = useRef();
   const cartCtx = useContext(CartContext);
   const hasItem = cartCtx.items.length > 0;
   const totalAmount = cartCtx.totalAmount.toFixed(2);
-
+  const totalOrderForm = {
+    orderList : cartCtx,
+    customerInfo : inputValues
+  };
   const onAddHandler = (item) => {
     cartCtx.addItem({...item,amount:1});
   };
@@ -34,7 +39,17 @@ const Cart = (props) => {
       ))}
     </ul>
   );
+  async function postOrderHandler(order){
+    await fetch('https://react-http-89f64-default-rtdb.firebaseio.com/order.json',{
+      method : 'POST',
+      body : JSON.stringify(order),
+      headers : {
+        'Content-Type' : 'applicatlion/json'
+      }
+    });
+  }
   const submitHandler = () => {
+    postOrderHandler(totalOrderForm);
     submitRef.current.activate();
   }
   return (
@@ -44,10 +59,10 @@ const Cart = (props) => {
         <label>Total Amount</label>
         <label>{`$${totalAmount}`}</label>
       </div>
-      <UserConfirm id={'1'} ref={submitRef}></UserConfirm>
+      <UserConfirm onValidChange={setFormIsValid} ref={submitRef} inputChange={setInputValues}></UserConfirm>
       <div className={styles.actions}>
         <button onClick={props.onClose}>Close</button>
-        {hasItem && <button className={styles.button} onClick={submitHandler}>Order</button>}
+        {hasItem && <button className={styles.button} onClick={submitHandler} disabled={!formIsValid}>Order</button>}
       </div>
     </Modal>
   );

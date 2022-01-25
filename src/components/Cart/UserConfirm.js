@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { forwardRef } from "react";
 import { useImperativeHandle } from "react";
 import { useRef, useState } from "react/cjs/react.development";
@@ -37,6 +37,14 @@ const UserConfirm = forwardRef((props, ref) => {
     inputBlurHandler: cardPasswordBlurHandler,
     reset: cardPasswordReset,
   } = useInput();
+  
+  const allInputValues = useMemo(()=>{return{
+    name : enteredName,
+    email : enteredEmail,
+    cardNumber : enteredCardNumber,
+    cardPassword : enteredCardPassword
+  }},[enteredName,enteredEmail,enteredCardNumber,enteredCardPassword]);
+  
   let formIsValid = false;
   if (nameIsValid && emailIsValid && cardNumberIsValid && cardPasswordIsValid) {
     formIsValid = true;
@@ -56,9 +64,12 @@ const UserConfirm = forwardRef((props, ref) => {
       activate : submitHandler
     };
   })
-  // useEffect(()=>{
-
-  // },[]);
+  useEffect(()=>{
+    props.onValidChange(formIsValid);
+  },[formIsValid]);
+  useEffect(()=>{
+    props.inputChange(allInputValues);
+  },[allInputValues]);
   const styleInValid = (isInvalid) => {
     return isInvalid
       ? `${classes["form-control"]} ${classes.invalid}`
