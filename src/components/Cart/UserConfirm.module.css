@@ -1,0 +1,19 @@
+.errortext{
+  color: red;
+}
+.form-control{
+
+  margin: .5rem;
+}
+.form-control label{
+  display: inline-block;
+  width: 7rem;
+}
+.form-control input{
+
+
+}
+.form-control.invalid input{
+  background: rgb(255, 202, 202);
+  border: 1px solid red;
+}
