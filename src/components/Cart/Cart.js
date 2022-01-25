@@ -1,11 +1,14 @@
-import react, { useContext } from "react";
+import react, { useContext, useRef } from "react";
 import { useState } from "react/cjs/react.development";
 import CartContext from "../../store/cart-context";
 import styles from "./Cart.module.css";
 import CartItem from "./CartItem";
 import Modal from "./Modal";
+import Input from "../UI/Input";
+import UserConfirm from "./UserConfirm";
 
 const Cart = (props) => {
+  const submitRef = useRef();
   const cartCtx = useContext(CartContext);
   const hasItem = cartCtx.items.length > 0;
   const totalAmount = cartCtx.totalAmount.toFixed(2);
@@ -33,6 +36,9 @@ const Cart = (props) => {
       ))}
     </ul>
   );
+  const submitHandler = () => {
+    submitRef.current.activate();
+  }
   return (
     <Modal onClick={props.onClose}>
       {cartItems}
@@ -40,9 +46,10 @@ const Cart = (props) => {
         <label>Total Amount</label>
         <label>{`$${totalAmount}`}</label>
       </div>
+      <UserConfirm id={'1'} ref={submitRef}></UserConfirm>
       <div className={styles.actions}>
         <button onClick={props.onClose}>Close</button>
-        {hasItem && <button className={styles.button}>Order</button>}
+        {hasItem && <button className={styles.button} onClick={submitHandler}>Order</button>}
       </div>
     </Modal>
   );
